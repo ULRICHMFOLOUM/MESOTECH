@@ -9,7 +9,7 @@ import FadeIn from "@/components/animations/FadeIn";
 import StaggerContainer from "@/components/animations/StaggerContainer";
 
 interface Project {
-  id: number;
+  id: string;
   title: string;
   description: string;
   live: string;
@@ -25,7 +25,14 @@ export default function Projects() {
   useEffect(() => {
     fetch("/api/projects")
       .then((r) => r.json())
-      .then((data) => setProjects(data))
+      .then((data) => {
+        // Sécurité : s'assurer que data est bien un tableau
+        if (Array.isArray(data)) {
+          setProjects(data);
+        } else {
+          setProjects([]);
+        }
+      })
       .catch(() => setProjects([]))
       .finally(() => setLoading(false));
   }, []);

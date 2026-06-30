@@ -11,7 +11,8 @@ export async function GET() {
     return NextResponse.json(projects);
   } catch (error) {
     console.error("GET projects error:", error);
-    return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
+    // Retourner un tableau vide en cas d'erreur pour éviter le crash client
+    return NextResponse.json([], { status: 200 });
   }
 }
 
